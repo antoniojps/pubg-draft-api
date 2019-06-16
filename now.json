@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "change-this",
+  "name": "pubg-draft",
   "builds": [{ "src": "api/**/*.js", "use": "@now/node" }],
-  "alias": ["change-this"]
+  "alias": ["pubg-draft"]
 }

@@ -1,6 +1,5 @@
 const axios = require('axios')
-const config = require('./config')
-const { FACEIT_API_KEY } = config
+const { FACEIT_API_KEY } = require('./config')
 
 const faceit = axios.create({
   baseURL: 'https://open.faceit.com/data/v4/',

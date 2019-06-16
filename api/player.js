@@ -1,10 +1,9 @@
-const faceit = require('../services/faceit')
 const express = require('express')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-
-const { getFaceitPlayerPubg } = faceit
+const { getFaceitPlayerPubg } = require('../services/faceit')
+const { getPlayerStats } = require('../services/pubg')
 
 const app = express()
 
@@ -23,8 +22,13 @@ app.get('*', async (req, res) => {
     })
   try {
     const faceitData = await getFaceitPlayerPubg(player)
+    const pubgSeasonStats = await getPlayerStats(
+      faceitData.player['game_player_name']
+    )
+
     res.status(200).send({
-      faceit: faceitData
+      faceit: faceitData,
+      pubg: pubgSeasonStats
     })
   } catch (err) {
     res.status(400).send(err)
