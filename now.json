@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "pubg-draft",
-  "builds": [{ "src": "api/**/*.js", "use": "@now/node" }],
-  "alias": ["pubg-draft"]
+  "builds": [{ "src": "server.js", "use": "@now/node" }],
+  "routes": [{ "src": "/.*", "dest": "server.js" }]
 }
