@@ -3,7 +3,7 @@ const { FACEIT_API_KEY } = require('./config')
 
 const faceit = axios.create({
   baseURL: 'https://open.faceit.com/data/v4/',
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     Authorization: `Bearer ${FACEIT_API_KEY}`,
     Accept: 'application/json"'

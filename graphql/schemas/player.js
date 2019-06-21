@@ -1,9 +1,13 @@
 const { gql } = require('apollo-server-micro')
-const { getFaceitPlayerPubg } = require('./../../services/faceit')
-const { getPlayerStats } = require('./../../services/pubg')
+const Player = require('./../../models/player')
 
 const typeDefs = gql`
   type Player {
+    nickname: String!
+    stats: Stats
+  }
+
+  type FaceitPlayer {
     player_id: ID
     nickname: String
     avatar: String
@@ -14,7 +18,7 @@ const typeDefs = gql`
   }
 
   type Faceit {
-    player: Player
+    player: FaceitPlayer
     stats: JSON
   }
 
@@ -29,7 +33,7 @@ const typeDefs = gql`
   }
 
   extend type Query {
-    player(faceitUsername: String!): Stats!
+    player(faceitUsername: String!): Player!
   }
 `
 
@@ -37,17 +41,11 @@ const resolvers = {
   Query: {
     player: async (_, { faceitUsername }) => {
       if (typeof faceitUsername !== 'string' || !faceitUsername)
-        throw Error('Missing required Player param')
+        throw Error('Missing required faceitUsername param')
 
       try {
-        const faceitData = await getFaceitPlayerPubg(faceitUsername)
-        const pubgSeasonStats = await getPlayerStats(
-          faceitData.player['game_player_name']
-        )
-        return {
-          faceit: faceitData,
-          pubg: pubgSeasonStats
-        }
+        const player = await Player.findOrCreateByNickname(faceitUsername)
+        return player
       } catch (err) {
         throw Error(err)
       }
