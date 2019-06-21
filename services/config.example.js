@@ -1,7 +1,9 @@
 const FACEIT_API_KEY = 'xxx'
 const PUBG_API_KEY = 'xxx'
 const MONGODB_URI =
-  process.env === 'production' ? 'xxx' : 'mongodb://localhost:27017/PubgDraft'
+  process.env.NODE_ENV === 'production'
+    ? 'xxx'
+    : 'mongodb://localhost:27017/PubgDraft'
 
 module.exports = {
   FACEIT_API_KEY,
