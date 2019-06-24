@@ -46,8 +46,14 @@ const getPlayerStats = async playerId => {
     const {
       data: { lifetime }
     } = await faceit.get(`players/${playerId}/stats/pubg`)
+
+    const stats = {
+      kdRatio: Number(lifetime['K/D Ratio']),
+      avgDamage: Number(lifetime['Average Damage Dealt']),
+      matches: Number(lifetime['Total Matches'])
+    }
     const data = {
-      ...lifetime
+      ...stats
     }
     return data
   } catch (err) {

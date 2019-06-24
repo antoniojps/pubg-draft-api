@@ -3,6 +3,11 @@ function updatedInLast24Hours(date) {
   return date > yesterday
 }
 
+function roundHundredth(number) {
+  return Math.round(number * 100) / 100
+}
+
 module.exports = {
-  updatedInLast24Hours
+  updatedInLast24Hours,
+  roundHundredth
 }

@@ -1,5 +1,6 @@
 const axios = require('axios')
 const { PUBG_API_KEY } = require('./config')
+const { roundHundredth } = require('./utilities')
 
 // config
 const pubg = axios.create({
@@ -84,13 +85,11 @@ async function getPlayerStats(
     const avgDamage = damageDealt / roundsPlayed
 
     return {
-      gameMode,
       stats: {
-        pubg: pubgStats,
-        calculated: {
-          'K/D Ratio': kd,
-          'Average Damage Dealt': avgDamage
-        }
+        gameMode,
+        kdRatio: roundHundredth(kd),
+        avgDamage: roundHundredth(avgDamage),
+        matches: pubgStats.roundsPlayed
       }
     }
   } catch (err) {

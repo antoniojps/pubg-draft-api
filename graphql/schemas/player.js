@@ -4,7 +4,8 @@ const Player = require('./../../models/player')
 const typeDefs = gql`
   type Player {
     nickname: String!
-    stats: Stats
+    faceit: Faceit
+    pubg: Pubg
   }
 
   type FaceitPlayer {
@@ -19,17 +20,18 @@ const typeDefs = gql`
 
   type Faceit {
     player: FaceitPlayer
-    stats: JSON
+    stats: Stats
   }
 
   type Pubg {
-    gameMode: String
-    stats: JSON
+    stats: Stats
   }
 
   type Stats {
-    faceit: Faceit
-    pubg: Pubg
+    gameMode: String
+    kdRatio: Float
+    avgDamage: Float
+    matches: Int
   }
 
   extend type Query {

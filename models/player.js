@@ -8,7 +8,11 @@ const PlayerSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  stats: {
+  faceit: {
+    type: Object,
+    sparce: true
+  },
+  pubg: {
     type: Object,
     sparce: true
   }
@@ -40,24 +44,26 @@ PlayerSchema.statics = {
         return updatedPlayerStatsFromDB
       }
       console.log(`player ${nickname} queried from db`)
+      console.log({ playerFromDB })
       return playerFromDB
     }
 
-    // get video from youtube data api if not present in db
-    const playerStatsFromAPI = await getAllPlayerStats(nickname)
-    const newPlayer = new Player({ nickname, stats: playerStatsFromAPI })
+    // get player from faceit and pubg api if not present in db
+    const { pubg, faceit } = await getAllPlayerStats(nickname)
+    const newPlayer = new Player({ nickname, pubg, faceit })
     await newPlayer.save()
     console.log(`player ${nickname} created from api to db`)
 
     return newPlayer
   },
   async updatePlayerStats(nickname, stats) {
+    const { faceit, pubg } = stats
     const udpatedPlayer = await Player.findOneAndUpdate(
       {
         nickname
       },
       {
-        $set: { nickname, stats }
+        $set: { nickname, faceit, pubg }
       },
       {
         new: true
